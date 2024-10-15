@@ -5,17 +5,47 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PDF Chat - Madhanagopal</title>
+        <script async src="https://kit.fontawesome.com/2f69883659.js" crossorigin="anonymous"></script>
+
     </head>
 
     <body>
         <div class="container">
+            <div class="hidden">
+                <form action="/upload/" method="post" id="pdfSend">
 
+                    {% csrf_token %}
+                    <input type="text" id="link" name="link">
+
+                </form>
+            </div>
+
+            <div class="pdfUploader">
+                <h1>Chat with PDF</h1>
+                <p class="hixx" id="updng">
+                    Continue by Uploading a PDF.
+                </p>
+                <div class="progress rounded-pill" style="display: none;" id="prog">
+                    <div role="progressbar" aria-valuenow="55" aria-valuemin="0" id="inval" aria-valuemax="100"
+                        class="progress-bar rounded-pill"></div>
+                </div>
+                <input type="file" id="pdfFile" required accept="application/pdf" onchange="showButton()" />
+                <button class="nones" id="upx" type="submit" onclick="uploadPdf()">Proceed <i
+                        class="fa fa-circle-arrow-right" aria-hidden="true"></i></button>
+            </div>
         </div>
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
             * {
                 box-sizing: border-box;
                 padding: 0;
                 margin: 0;
+                font-family: Inter;
+            }
+
+            .hidden {
+                display: none;
             }
 
             body {
@@ -31,9 +61,183 @@
                 margin: auto;
                 background-color: #effff1;
             }
+
+            .pdfUploader {
+                width: 300px;
+                height: fit-content;
+                display: flex;
+                position: absolute;
+                inset: 0;
+                margin: auto;
+                flex-direction: column;
+                background-color: #c6f8cc;
+                padding: 20px;
+                gap: 10px;
+                border-radius: 21px;
+            }
+
+            input[type="file"]::file-selector-button {
+                border-radius: 4px;
+                padding: 0 16px;
+                height: 40px;
+                cursor: pointer;
+                background-color: white;
+                border: 1px solid rgba(0, 0, 0, 0.16);
+                box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+                margin-right: 16px;
+                transition: background-color 200ms;
+
+
+
+            }
+
+
+
+            input[type="file"]::file-selector-button:hover {
+                background-color: #f3f4f6;
+            }
+
+            input[type="file"]::file-selector-button:active {
+                background-color: #e5e7eb;
+            }
+
+            .nones {
+                border: none;
+                padding: 10px 10px 10px 20px;
+                color: #fff;
+                text-transform: uppercase;
+                border-radius: 30px;
+                background-color: #58c765;
+                margin-top: 20px;
+                align-items: center;
+                justify-content: center;
+                height: fit-content;
+                gap: 10px;
+                transition: all .3s ease-in-out;
+                display: none;
+
+            }
+
+            .nones svg {
+                font-size: 2em;
+            }
+
+            .nones:hover {
+                gap: 35px;
+            }
+
+            .progress {
+                display: -ms-flexbox;
+                display: flex;
+                height: 1rem;
+                overflow: hidden;
+                font-size: 0.75rem;
+                background-color: #bdeac3;
+                border-radius: 0.25rem;
+            }
+
+            .rounded-pill {
+                border-radius: 50rem !important;
+            }
+
+            .progress-bar {
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -ms-flex-pack: center;
+                justify-content: center;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                background-color: #40ca50;
+                transition: width 0.6s linear;
+            }
         </style>
 
+        <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+        <script>
+            const print = (m) => console.log(m)
+            function randomToken() {
+                let result = ""
+                let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYX1234567890'
+                while (result.length < 6) {
+                    result += chars[Math.floor(Math.random() * chars.length)]
+                }
+                return result
+            }
+            function showButton() {
+                var fileInput = document.getElementById('pdfFile');
+                var submitButton = document.getElementById('upx');
+                if (fileInput.files.length > 0) {
+                    submitButton.style.display = 'flex';
+                } else {
+                    submitButton.style.display = 'none';
+                }
+            }
+            // const datas = document.getElementById("bendfb").value;
+            // console.log(datas);
+            // const print = (dat) => { console.log(dat); }
+            // const datass = datas.replace(/'/g, '"');
+            // console.log(datass);
+            const firebaseConfig = {
+                apiKey: "AIzaSyB4WlKXOypwcaWU5D_eWE2_ebaVp7Dsppk",
+                authDomain: "pdfchatx.firebaseapp.com",
+                projectId: "pdfchatx",
+                storageBucket: "pdfchatx.appspot.com",
+                messagingSenderId: "550453826446",
+                appId: "1:550453826446:web:99351afa7608c8ee814adf"
+            };
+            firebase.initializeApp(firebaseConfig);
+            function uploadPdf() {
+                document.getElementById('upx').innerHTML = `Uploading! <i class="fa-solid fa-cloud-arrow-up"></i>`;
+                document.getElementById('updng').textContent = "Uploading, Please Wait!";
+                document.getElementById('upx').setAttribute("disabled", "disabled");
+                document.getElementById('pdfFile').style.display = "none";
+                document.getElementById('prog').style.display = "block";
+                const inval = document.getElementById('inval');
+                var storage = firebase.storage();
+                var file = document.getElementById("pdfFile").files[0];
+                var storageRef = storage.ref();
+                let sess = randomToken()
+                var thisref = storageRef.child(sess).put(file);
+                thisref.on(
+                    "state_changed",
+                    function (snapshot) {
+                        print(snapshot);
+                        let bValue = snapshot.b;
+                        let sMb = bValue / 1048576;
+                        sMb = sMb.toFixed(2);
+                        let hValue = snapshot.h;
+                        let fMb = hValue / 1048576;
+                        fMb = fMb.toFixed(2);
+                        let percent = (bValue / hValue) * 100;
+                        percent = parseInt(percent);
+                        document.getElementById('updng').textContent = `Uploading your PDF, (${sMb}MB / ${fMb}MB)`;
+                        inval.innerText = `${percent}%`;
+                        inval.style.width = `${percent}%`;
+                        console.log(percent)
+                    },
+                    function (error) { },
 
+                    function () {
+                        var downloadURL = thisref.snapshot.downloadURL;
+                        console.log("got url");
+                        print(downloadURL);
+                        document.getElementById('link').value = downloadURL;
+                        document.getElementById('upx').style.display = "none";
+                        document.getElementById('updng').textContent = "Uploaded Successfully!, you will be redirected to corresponding page!";
+                        var form = document.getElementById("pdfSend");
+                        form.submit();
+
+                    }
+                );
+            }
+
+
+
+
+        </script>
     </body>
 
 </html>

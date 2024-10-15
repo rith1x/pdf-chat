@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+
+                font-family: "Inter", serif;
+
+            }
+
+            body {
+                width: 100%;
+                height: 100dvh;
+                background-color: #000;
+            }
+
+            .chatScreen {
+                max-width: 450px;
+                margin: 0 auto;
+                height: 100%;
+                border-radius: 11px;
+                position: relative;
+                background-color: #fff;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #msgs::-webkit-scrollbar {
+                width: 5px;
+
+            }
+
+            #msgs::-webkit-scrollbar-track {
+                background-color: #fff;
+            }
+
+            #msgs::-webkit-scrollbar-thumb {
+                background-color: #aaa;
+                border-radius: 5px;
+            }
+
+            .topbar {
+                height: 50px;
+                background-color: rgb(79, 178, 84);
+                display: flex;
+                align-items: center;
+                width: 100%;
+                font-weight: 600;
+                top: 0;
+                justify-content: space-between;
+            }
+
+            .left {
+                height: 100%;
+                display: flex;
+                gap: 5px;
+                font-size: 18px;
+                padding-left: 10px;
+                align-items: center;
+                justify-content: flex-start;
+                color: #fff;
+            }
+
+            .left svg {
+                width: 30px;
+                height: 30px;
+                fill: #9cc5ff;
+
+            }
+
+            .useract {
+                height: 100%;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .useract * {
+                padding: 0px;
+                /* line-height: 16px; */
+            }
+
+            .left p {
+                font-size: 12px;
+            }
+
+            .options svg {
+                height: 25px;
+            }
+
+            .options {
+                opacity: 0;
+            }
+
+            .iconx {
+                background-color: #ffffff4b;
+                height: 80%;
+                aspect-ratio: 1/1;
+                display: flex;
+                align-items: center;
+                border-radius: 50%;
+                justify-content: center;
+
+
+            }
+
+            .ips {
+                height: 50px;
+                background-color: #fff;
+                padding: 5px;
+                /* position: absolute; */
+                width: 100%;
+                left: 0;
+                /* margin-inline: auto; */
+                right: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                border: solid 1px rgb(157, 157, 157);
+                border-radius: 30px;
+
+            }
+
+            .ips input {
+                width: 100%;
+                height: 100%;
+                border: none;
+                font-size: 16px;
+                background-color: transparent;
+            }
+
+            .ips input:focus {
+                outline: none;
+                padding-left: 10px;
+            }
+
+            .ips button {
+                height: 100%;
+                aspect-ratio: 1/1;
+                border: none;
+                background-color: #3589ff;
+                border-radius: 50%;
+                margin-block: 10px;
+            }
+
+            .ips button svg {
+                width: 25px;
+                height: 25px;
+                padding-top: 3px;
+                stroke: #fff;
+            }
+
+            #msgs p {
+                width: fit-content;
+                max-width: 80%;
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 14px;
+                box-shadow: 0 0 3px #74747450;
+            }
+
+            p.s {
+                align-self: flex-end;
+                background-color: rgb(163, 245, 181);
+            }
+
+            p.b {
+                align-self: center;
+                background-color: rgb(0, 0, 0);
+                font-size: 12px;
+                color: #fff;
+                padding: 6px 10px !important;
+                border-radius: 15px !important;
+            }
+
+            p.r {
+                align-self: flex-start;
+                background-color: rgb(247, 248, 216);
+
+            }
+
+            #msgs {
+                display: flex;
+                height: 100%;
+                padding-inline: 8px;
+                gap: 5px;
+                padding-block: 5px;
+                flex-direction: column;
+                overflow-y: scroll;
+
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="chatScreen">
+            <div class="topbar">
+                <div class="left">
+                    <div class="iconx">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-robot-face"
+                            width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z" />
+                            <path d="M9 16c1 .667 2 1 3 1s2 -.333 3 -1" />
+                            <path d="M9 7l-1 -4" />
+                            <path d="M15 7l1 -4" />
+                            <path d="M9 12v-1" />
+                            <path d="M15 12v-1" />
+                        </svg>
+                    </div>
+                    <div class="useract">
+                        <div class="name">PdfChat</div>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div class="options">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical"
+                        width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                        <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                        <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                    </svg>
+                </div>
+            </div>
+            <div id="msgs">
+                <p class="b">{{info}}</p>
+            </div>
+            <div class="ips">
+                <input type="text" id="userQn">
+                <button onclick="parseInput()"><svg xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-send" width="48" height="48" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="#0047ab" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 14l11 -11" />
+                        <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+                    </svg></button>
+            </div>
+        </div>
+
+        <script>
+
+            function parseInput() {
+                let input = document.getElementById('userQn').value
+                document.getElementById('userQn').value = ""
+                chatUpdate(1, input)
+                fetch('/ask/', {
+                    method: 'POST',
+                    headers: {
+                        'content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: new URLSearchParams({
+                        'ques': input
+                    })
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        chatUpdate(2, data.message)
+                    })
+                    .catch(err => console.error(err))
+
+            }
+            function chatUpdate(end, msg) {
+                const el = document.createElement('p')
+                el.innerText = msg
+                el.className = (end == 1) ? 's' : 'r'
+                document.getElementById('msgs').appendChild(el)
+            }
+        </script>
+    </body>
+
+</html>
