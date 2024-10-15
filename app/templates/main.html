@@ -139,12 +139,13 @@
                 height: 100%;
                 border: none;
                 font-size: 16px;
+                padding-left: 10px;
+
                 background-color: transparent;
             }
 
             .ips input:focus {
                 outline: none;
-                padding-left: 10px;
             }
 
             .ips button {
@@ -166,15 +167,16 @@
             #msgs p {
                 width: fit-content;
                 max-width: 80%;
-                padding: 10px;
-                border-radius: 6px;
+                padding: 8px 12px;
+                border-radius: 21px;
                 font-size: 14px;
-                box-shadow: 0 0 3px #74747450;
             }
 
             p.s {
                 align-self: flex-end;
-                background-color: rgb(163, 245, 181);
+                background-color: #007CFE;
+                color: #fff;
+
             }
 
             p.b {
@@ -188,9 +190,12 @@
 
             p.r {
                 align-self: flex-start;
-                background-color: rgb(247, 248, 216);
+                background-color: #E8E8EA;
+                color: #000;
 
             }
+
+
 
             #msgs {
                 display: flex;
@@ -201,6 +206,20 @@
                 flex-direction: column;
                 overflow-y: scroll;
 
+            }
+
+            [glow="true"] {
+                transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+
+            .glow-hide {
+                opacity: 0;
+                filter: blur(3px);
+            }
+
+            .glow-show {
+                opacity: 1;
+                filter: none;
             }
         </style>
     </head>
@@ -242,7 +261,7 @@
                 <p class="b">{{info}}</p>
             </div>
             <div class="ips">
-                <input type="text" id="userQn">
+                <input type="text" id="userQn" placeholder="Message">
                 <button onclick="parseInput()"><svg xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-tabler icon-tabler-send" width="48" height="48" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="#0047ab" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -294,19 +313,22 @@
 
 
             async function phraseCreate(element, phrase) {
-                let phrases = phrase.split("")
+                let phrases = phrase.split(" ")
 
                 for (let i = 0; i < phrases.length; i++) {
                     let word = phrases[i]
                     const wel = document.createElement('span')
                     wel.setAttribute("glow", true)
-                    wel.innerText = word + ""
+                    wel.innerText = word + " "
                     wel.className = "glow-hide"
                     element.appendChild(wel)
                     console.log(word)
-                    await delay(10)
+                    await delay(30)
+                    wel.className = "glow-show"
                 }
+
             }
+
 
 
 
