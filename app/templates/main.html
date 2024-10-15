@@ -21,6 +21,7 @@
                 width: 100%;
                 height: 100dvh;
                 background-color: #000;
+                overflow: hidden;
             }
 
             .chatScreen {
@@ -253,7 +254,11 @@
         </div>
 
         <script>
-
+            document.getElementById('userQn').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    parseInput();
+                }
+            })
             function parseInput() {
                 let input = document.getElementById('userQn').value
                 document.getElementById('userQn').value = ""
@@ -275,13 +280,38 @@
                     .catch(err => console.error(err))
 
             }
-            function chatUpdate(end, msg) {
+            async function chatUpdate(end, msg) {
                 const el = document.createElement('p')
-                el.innerText = msg
                 el.className = (end == 1) ? 's' : 'r'
                 document.getElementById('msgs').appendChild(el)
+                phraseCreate(el, msg)
             }
+
+
+            async function delay(ms) {
+                return new Promise(resolve => { setTimeout(resolve, ms) })
+            }
+
+
+            async function phraseCreate(element, phrase) {
+                let phrases = phrase.split("")
+
+                for (let i = 0; i < phrases.length; i++) {
+                    let word = phrases[i]
+                    const wel = document.createElement('span')
+                    wel.setAttribute("glow", true)
+                    wel.innerText = word + ""
+                    wel.className = "glow-hide"
+                    element.appendChild(wel)
+                    console.log(word)
+                    await delay(10)
+                }
+            }
+
+
+
+
         </script>
     </body>
 
-</html>
+</html>j

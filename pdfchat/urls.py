@@ -21,6 +21,6 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.showWelcome),
-    path('upload/',views.handlePdf),
+    path('chat/',views.handlePdf),
     path('ask/',views.handleQuestion,name="neww")
 ]
