@@ -170,6 +170,7 @@
                 padding: 8px 12px;
                 border-radius: 21px;
                 font-size: 14px;
+                transition: height .3s ease;
             }
 
             p.s {
@@ -205,6 +206,7 @@
                 padding-block: 5px;
                 flex-direction: column;
                 overflow-y: scroll;
+                scroll-behavior: smooth;
 
             }
 
@@ -278,6 +280,7 @@
                     parseInput();
                 }
             })
+
             function parseInput() {
                 let input = document.getElementById('userQn').value
                 document.getElementById('userQn').value = ""
@@ -325,11 +328,16 @@
                     console.log(word)
                     await delay(30)
                     wel.className = "glow-show"
+                    scrollToEnd()
                 }
 
             }
 
 
+            function scrollToEnd() {
+                var chatScreen = document.getElementById("msgs");
+                chatScreen.scrollTop = chatScreen.scrollHeight;
+            }
 
 
 

@@ -38,25 +38,6 @@ def handlePdf(request):
     
     return render(request, "main.html", {'info': "No POST request made."})
 
-# def handlePdf(request):
-#     if request.method == "POST":
-#         pdflink = request.POST.get("link")
-#         print(pdflink)
-#         try:
-#             response = requests.get(pdflink)
-#             if response.status_code == 200:
-#                 with open('/tmp/file.pdf', 'wb') as f:
-#                     f.write(response.content)
-#                 print("File successfully downloaded and saved")
-#                 info = "File successfully downloaded and saved"
-#             else:
-#                 print(f"Failed to download the PDF. Status code: {response.status_code}")
-#                 info = (f"Failed to download the PDF. Status code: {response.status_code}")
-#         except requests.exceptions.RequestException as e:
-#             print(f"Error occurred: {str(e)}")
-        
-#         return render(request, "main.html",{'info':info})
-
 
 def handleQuestion(request):
     if request.method == 'POST':
