@@ -170,6 +170,8 @@
                 padding: 8px 12px;
                 border-radius: 21px;
                 font-size: 14px;
+                word-break: break-word;
+                white-space: normal;
                 transition: height .3s ease;
             }
 
@@ -196,6 +198,17 @@
 
             }
 
+            p.rld {
+                align-self: flex-start;
+                background-color: #E8E8EA;
+                color: #000;
+                padding: 3px 9px !important;
+
+            }
+
+            p.rld svg {
+                margin-top: 4px;
+            }
 
 
             #msgs {
@@ -245,7 +258,7 @@
                     </div>
                     <div class="useract">
                         <div class="name">PdfChat</div>
-                        <p>Online</p>
+                        <p id="status">Online</p>
                     </div>
                 </div>
                 <div class="options">
@@ -275,6 +288,8 @@
         </div>
 
         <script>
+            let chatstatus = 'Online'
+            var loader = `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_qM83{animation:spinner_8HQG 1.05s infinite}.spinner_oXPr{animation-delay:.1s}.spinner_ZTLf{animation-delay:.2s}@keyframes spinner_8HQG{0%,57.14%{animation-timing-function:cubic-bezier(0.33,.66,.66,1);transform:translate(0)}28.57%{animation-timing-function:cubic-bezier(0.33,0,.66,.33);transform:translateY(-6px)}100%{transform:translate(0)}}</style><circle class="spinner_qM83" cx="4" cy="12" r="3"/><circle class="spinner_qM83 spinner_oXPr" cx="12" cy="12" r="3"/><circle class="spinner_qM83 spinner_ZTLf" cx="20" cy="12" r="3"/></svg>`
             document.getElementById('userQn').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     parseInput();
@@ -285,6 +300,8 @@
                 let input = document.getElementById('userQn').value
                 document.getElementById('userQn').value = ""
                 chatUpdate(1, input)
+                botRes()
+
                 fetch('/ask/', {
                     method: 'POST',
                     headers: {
@@ -298,15 +315,31 @@
                     .then(data => {
                         console.log(data)
                         chatUpdate(2, data.message)
+
                     })
                     .catch(err => console.error(err))
 
             }
             async function chatUpdate(end, msg) {
+                if (end == 2) {
+                    const loadr = document.getElementById('botRes')
+                    loadr.parentNode.removeChild(loadr)
+
+                }
                 const el = document.createElement('p')
                 el.className = (end == 1) ? 's' : 'r'
                 document.getElementById('msgs').appendChild(el)
                 phraseCreate(el, msg)
+            }
+            function botRes() {
+                const el = document.createElement('p')
+                el.className = 'rld'
+                el.innerHTML = loader
+                el.id = 'botRes'
+                setStatus('Thinking...')
+
+                document.getElementById('msgs').appendChild(el)
+
             }
 
 
@@ -319,6 +352,8 @@
                 let phrases = phrase.split(" ")
 
                 for (let i = 0; i < phrases.length; i++) {
+                    setStatus('Typing...')
+
                     let word = phrases[i]
                     const wel = document.createElement('span')
                     wel.setAttribute("glow", true)
@@ -330,9 +365,13 @@
                     wel.className = "glow-show"
                     scrollToEnd()
                 }
+                setStatus('Online')
+
 
             }
-
+            function setStatus(mode) {
+                document.getElementById('status').innerText = mode
+            }
 
             function scrollToEnd() {
                 var chatScreen = document.getElementById("msgs");
